@@ -1,0 +1,38 @@
+name: manage-azure-policy-25d5b3a1
+on:
+  workflow_dispatch:
+    inputs:
+      remarks:
+        description: 'Reason for triggering the workflow run'
+        required: false
+        default: 'Updating Azure Policies'
+
+
+## Uncomment the following if you wish to automatically trigger workflow run with every commit
+#
+#  push:
+#    paths:
+#      - 'guardrails/policies/Key_vaults_should_have_purge_protection_enabled_0b60c0b2-2dc2-4e1c-b5c9-abbed971de53/**'
+#      - 'guardrails/policies/Azure_Defender_for_Key_Vault_should_be_enabled_0e6763cc-5078-4e64-889d-ff4d9a839047/**'
+#      - 'guardrails/policies/Key_vaults_should_have_soft_delete_enabled_1e66c121-a66a-4b1f-9b83-0fd99bf0fc2d/**'
+#      - 'guardrails/policies/_Preview_Firewall_should_be_enabled_on_Key_Vault_55615ac9-af46-4a59-874e-391cc3dfb490/**'
+#      - .github/workflows/manage-azure-policy-25d5b3a1.yml
+jobs:
+  apply-azure-policy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{secrets.AZURE_CREDENTIALS_25d5b3a1}}
+        allow-no-subscriptions: true
+    - name: Create or Update Azure Policies
+      uses: azure/manage-azure-policy@v0
+      with:
+        paths: |
+          guardrails/policies/Key_vaults_should_have_purge_protection_enabled_0b60c0b2-2dc2-4e1c-b5c9-abbed971de53/**
+          guardrails/policies/Azure_Defender_for_Key_Vault_should_be_enabled_0e6763cc-5078-4e64-889d-ff4d9a839047/**
+          guardrails/policies/Key_vaults_should_have_soft_delete_enabled_1e66c121-a66a-4b1f-9b83-0fd99bf0fc2d/**
+          guardrails/policies/_Preview_Firewall_should_be_enabled_on_Key_Vault_55615ac9-af46-4a59-874e-391cc3dfb490/**
